@@ -1,6 +1,6 @@
 Name:       redmine
 Version:    1.0.3
-Release:    %mkrel 1
+Release:    %mkrel 2
 Summary:    A flexible project management web application
 Group:      Networking/WWW
 License:    GPLv2+
@@ -188,7 +188,7 @@ version control system backend
 
 %build
 find . -name ".gitignore" -exec rm {} \;
-ruby -pi -e 'sub(/\/usr\/local\/bin\/ruby/, "/usr/bin/env ruby")' lib/faster_csv.rb
+perl -pi -e 's!/usr/local/bin/ruby!/usr/bin/env ruby!' lib/faster_csv.rb
 
 %install
 rm -rf %buildroot
