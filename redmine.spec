@@ -51,7 +51,7 @@ Overview
 %package pg
 Summary:    A flexible project management web application - pgsql connector
 Group:      Networking/WWW
-Requires:   ruby-pg
+Requires:   rubygem-pg
 Provides:   %{name}-pg = %{version}-%{release}
 Provides:   %{name}-db = %{version}-%{release}
 
@@ -195,6 +195,7 @@ perl -pi -e 's!/usr/local/bin/ruby!/usr/bin/env ruby!' lib/faster_csv.rb
 rm -rf %buildroot
 install -d %{buildroot}%{_var}/www/%{name}
 cp -rf * %{buildroot}%{_var}/www/%{name}
+rm -rf %{buildroot}%{_var}/www/%{name}/vendor/rails
 
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d/
 install -D -m644 %{SOURCE101} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
