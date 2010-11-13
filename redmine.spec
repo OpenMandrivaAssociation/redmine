@@ -1,11 +1,12 @@
 Name:       redmine
 Version:    1.0.3
-Release:    %mkrel 2
+Release:    %mkrel 3
 Summary:    A flexible project management web application
 Group:      Networking/WWW
 License:    GPLv2+
 URL:        http://www.redmine.org
 Source0:    http://rubyforge.org/frs/download.php/73140/%{name}-%{version}.tar.gz
+Source101:  %{name}.logrotate
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
 
 # It can only work with webserver that have a plugin for passenger
@@ -81,7 +82,7 @@ database backend.
 %defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package sqlite
-Summary:    A flexible project management web application - pgsql connector
+Summary:    A flexible project management web application - sqlite connector
 Group:      Networking/WWW
 Requires:   ruby-sqlite3
 Provides:   %{name}-sqlite = %{version}-%{release}
@@ -98,7 +99,7 @@ database backend.
 %defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package git
-Summary:    A flexible project management web application - pgsql connector
+Summary:    A flexible project management web application - git backend
 Group:      Networking/WWW
 Requires:   git-core
 Provides:   %{name}-git = %{version}-%{release}
@@ -115,7 +116,7 @@ version control system backend
 %defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package svn
-Summary:    A flexible project management web application - pgsql connector
+Summary:    A flexible project management web application - subversion backend
 Group:      Networking/WWW
 Requires:   subversion
 Provides:   %{name}-svn = %{version}-%{release}
@@ -132,7 +133,7 @@ version control system backend
 %defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package hg
-Summary:    A flexible project management web application - pgsql connector
+Summary:    A flexible project management web application - mercurial backend
 Group:      Networking/WWW
 Requires:   mercurial
 Provides:   %{name}-hg  = %{version}-%{release}
@@ -149,7 +150,7 @@ version control system backend
 %defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package bzr
-Summary:    A flexible project management web application - pgsql connector
+Summary:    A flexible project management web application - bzr backend
 Group:      Networking/WWW
 Requires:   bzr
 Provides:   %{name}-bzr = %{version}-%{release}
@@ -166,7 +167,7 @@ version control system backend
 %defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package cvs
-Summary:    A flexible project management web application - pgsql connector
+Summary:    A flexible project management web application - cvs backend
 Group:      Networking/WWW
 Requires:   cvs
 Provides:   %{name}-cvs = %{version}-%{release}
@@ -195,11 +196,15 @@ rm -rf %buildroot
 install -d %{buildroot}%{_var}/www/%{name}
 cp -rf * %{buildroot}%{_var}/www/%{name}
 
+mkdir -p %{_sysconfdir}/logrotate.d/
+install -D -m644 %{SOURCE101} %{_sysconfdir}/logrotate.d/%{name}
+
 %clean
 rm -rf %buildroot
 
 %files
 %defattr(-,root,root,-)
+%{_sysconfdir}/logrotate.d/%{name}
 %doc %{_var}/www/%{name}/README.rdoc
 %dir %{_var}/www/%{name}/
 %{_var}/www/%{name}/app/
