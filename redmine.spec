@@ -1,6 +1,6 @@
 Name:       redmine
 Version:    1.0.3
-Release:    %mkrel 3
+Release:    %mkrel 4
 Summary:    A flexible project management web application
 Group:      Networking/WWW
 License:    GPLv2+
@@ -196,8 +196,8 @@ rm -rf %buildroot
 install -d %{buildroot}%{_var}/www/%{name}
 cp -rf * %{buildroot}%{_var}/www/%{name}
 
-mkdir -p %{_sysconfdir}/logrotate.d/
-install -D -m644 %{SOURCE101} %{_sysconfdir}/logrotate.d/%{name}
+mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d/
+install -D -m644 %{SOURCE101} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 %clean
 rm -rf %buildroot
