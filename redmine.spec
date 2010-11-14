@@ -1,6 +1,6 @@
 Name:       redmine
 Version:    1.0.3
-Release:    %mkrel 5
+Release:    %mkrel 6
 Summary:    A flexible project management web application
 Group:      Networking/WWW
 License:    GPLv2+
@@ -213,7 +213,7 @@ install -D -m644 %{SOURCE101} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # Add httpd default conf
 mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d/
-install -D -m644 %{SOURCE102} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}
+install -D -m644 %{SOURCE102} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 %clean
 rm -rf %buildroot
