@@ -1,6 +1,6 @@
 Name:       redmine
 Version:    1.0.3
-Release:    %mkrel 6
+Release:    %mkrel 7
 Summary:    A flexible project management web application
 Group:      Networking/WWW
 License:    GPLv2+
@@ -9,9 +9,12 @@ Source0:    http://rubyforge.org/frs/download.php/73140/%{name}-%{version}.tar.g
 Source101:  %{name}.logrotate
 Source102:  %{name}.httpd
 Source103:  %{name}-pg-database.yml
+Patch0:     %{name}-fix-rails-version.patch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
 
 Requires:   webserver
+Requires:   rails
+Requires:   ruby-rack
 Requires:   rubygems
 Requires:   %{name}-db
 # Only suggests rubygem-passenger, after all, it can work with fcgi too
@@ -189,6 +192,7 @@ version control system backend
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 find . -name ".gitignore" -exec rm {} \;
