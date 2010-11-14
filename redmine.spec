@@ -7,14 +7,15 @@ License:    GPLv2+
 URL:        http://www.redmine.org
 Source0:    http://rubyforge.org/frs/download.php/73140/%{name}-%{version}.tar.gz
 Source101:  %{name}.logrotate
+Source102:  %{name}.httpd
+Source103:  %{name}-pg-database.yml
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
 
-# It can only work with webserver that have a plugin for passenger
-# ie: apache or nginx
 Requires:   webserver
-Requires:   rubygem-passenger
 Requires:   rubygems
 Requires:   %{name}-db
+# Only suggests rubygem-passenger, after all, it can work with fcgi too
+Suggests:   rubygem-passenger
 Suggests:   ruby-RMagick
 Suggests:   rubygem-ruby-openid
 Suggests:   %{name}-scm
@@ -64,6 +65,7 @@ database backend.
 
 %files pg
 %defattr(-,root,root,-)
+%{_var}/www/%{name}/config/database.postgres.yml
 #-------------------------------------------------------------------------------
 %package mysql
 Summary:    A flexible project management web application - mysql connector
@@ -80,6 +82,7 @@ database backend.
 
 %files mysql
 %defattr(-,root,root,-)
+%config(noreplace) %{_var}/www/%{name}/config/database.yml
 #-------------------------------------------------------------------------------
 %package sqlite
 Summary:    A flexible project management web application - sqlite connector
@@ -195,10 +198,22 @@ perl -pi -e 's!/usr/local/bin/ruby!/usr/bin/env ruby!' lib/faster_csv.rb
 rm -rf %buildroot
 install -d %{buildroot}%{_var}/www/%{name}
 cp -rf * %{buildroot}%{_var}/www/%{name}
+
+# Don’t include bundled rails
 rm -rf %{buildroot}%{_var}/www/%{name}/vendor/rails
 
+# Copy database.yml.example as it’s mandatory to run redmine
+cp %{buildroot}%{_var}/www/%{name}/config/database.yml.example %{buildroot}%{_var}/www/%{name}/config/database.yml
+# Likewise, add postgresql conf
+install -D -m644 %{SOURCE103} %{buildroot}%{_var}/www/%{name}/config/database.postgres.yml
+
+# Add Logrotate script
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d/
 install -D -m644 %{SOURCE101} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+
+# Add httpd default conf
+mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d/
+install -D -m644 %{SOURCE102} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}
 
 %clean
 rm -rf %buildroot
@@ -206,19 +221,32 @@ rm -rf %buildroot
 %files
 %defattr(-,root,root,-)
 %{_sysconfdir}/logrotate.d/%{name}
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %doc %{_var}/www/%{name}/README.rdoc
 %dir %{_var}/www/%{name}/
 %{_var}/www/%{name}/app/
-%{_var}/www/%{name}/config/
+%dir %{_var}/www/%{name}/config/
+%doc %{_var}/www/%{name}/config/*.example
+%{_var}/www/%{name}/config/environments/
+%{_var}/www/%{name}/config/locales/
+%{_var}/www/%{name}/config/initializers/
+%{_var}/www/%{name}/config/routes.rb
+%{_var}/www/%{name}/config/boot.rb
+%{_var}/www/%{name}/config/environment.rb
+%{_var}/www/%{name}/config/settings.yml
 %{_var}/www/%{name}/db/
 %{_var}/www/%{name}/doc/
 %{_var}/www/%{name}/extra/
-%{_var}/www/%{name}/files/
+# Directory has to be owned by the user under which the webserver runs
+# Since apache is the preferred webserver for many people simplify the
+# process for those users, but it sucks, all webservers should belong
+# to the same user :-(
+%attr(0755,apache,apache) %{_var}/www/%{name}/files/
 %{_var}/www/%{name}/lib/
-%{_var}/www/%{name}/log/
+%attr(0755,apache,apache) %{_var}/www/%{name}/log/
 %{_var}/www/%{name}/public/
 %{_var}/www/%{name}/Rakefile
 %{_var}/www/%{name}/script/
 %{_var}/www/%{name}/test/
-%{_var}/www/%{name}/tmp/
+%attr(0755,apache,apache) %{_var}/www/%{name}/tmp/
 %{_var}/www/%{name}/vendor/
