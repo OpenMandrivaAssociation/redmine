@@ -1,6 +1,6 @@
 Name:       redmine
 Version:    1.0.3
-Release:    %mkrel 7
+Release:    %mkrel 8
 Summary:    A flexible project management web application
 Group:      Networking/WWW
 License:    GPLv2+
@@ -28,9 +28,6 @@ BuildArch:  noarch
 %description
 Redmine is a flexible project management web application. Written using
 Ruby on Rails framework, it is cross-platform and cross-database.
-
-Redmine is open source and released under the terms of the GNU General Public
-License v2 (GPL).
 
 Overview
 
