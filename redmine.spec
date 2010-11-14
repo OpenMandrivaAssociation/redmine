@@ -1,6 +1,6 @@
 Name:       redmine
 Version:    1.0.3
-Release:    %mkrel 4
+Release:    %mkrel 5
 Summary:    A flexible project management web application
 Group:      Networking/WWW
 License:    GPLv2+
