@@ -1,6 +1,6 @@
 Name:       redmine
 Version:    1.0.3
-Release:    %mkrel 8
+Release:    %mkrel 9
 Summary:    A flexible project management web application
 Group:      Networking/WWW
 License:    GPLv2+
@@ -12,6 +12,7 @@ Source103:  %{name}-pg-database.yml
 Patch0:     %{name}-fix-rails-version.patch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
 
+BuildRequires: ruby-RubyGems
 Requires:   webserver
 Requires:   rails
 Requires:   ruby-rack
@@ -22,6 +23,7 @@ Suggests:   rubygem-passenger
 Suggests:   ruby-RMagick
 Suggests:   rubygem-ruby-openid
 Suggests:   %{name}-scm
+Suggests:   %{name}-httpd
 
 BuildArch:  noarch
 
@@ -185,6 +187,28 @@ version control system backend
 
 %files cvs
 %defattr(-,root,root,-)
+#------------------------------------------------------------------------------
+%package -n httpd
+Summary:    A flexible project management web application - apache modules
+Group:      Networking/WWW
+Requires:   %{name}
+
+%description -n httpd
+
+This module allow anonymous users to browse public project and
+registred users to browse and commit their project. Authentication is
+done against the redmine database or the LDAP configured in redmine.
+
+This method is far simpler than the one with pam_* and works with all
+database without an hassle but you need to have apache/mod_perl on the
+svn server
+
+A default configuration for apache is also included
+
+%files -n httpd
+%defattr(-,root,root,-)
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
+%{_var}/www/%{name}/extra/svn/Redmine.pm
 #-------------------------------------------------------------------------------
 
 %prep
@@ -222,7 +246,6 @@ rm -rf %buildroot
 %files
 %defattr(-,root,root,-)
 %{_sysconfdir}/logrotate.d/%{name}
-%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %doc %{_var}/www/%{name}/README.rdoc
 %dir %{_var}/www/%{name}/
 %{_var}/www/%{name}/app/
@@ -237,6 +260,7 @@ rm -rf %buildroot
 %{_var}/www/%{name}/config/settings.yml
 %{_var}/www/%{name}/db/
 %{_var}/www/%{name}/doc/
+%exclude %{_var}/www/%{name}/extra/svn/Redmine.pm
 %{_var}/www/%{name}/extra/
 # Directory has to be owned by the user under which the webserver runs
 # Since apache is the preferred webserver for many people simplify the
