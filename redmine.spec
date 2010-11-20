@@ -9,6 +9,7 @@ Source0:    http://rubyforge.org/frs/download.php/73140/%{name}-%{version}.tar.g
 Source101:  %{name}.logrotate
 Source102:  %{name}.httpd
 Source103:  %{name}-pg-database.yml
+Source104:  README.urpmi
 Patch0:     %{name}-fix-rails-version.patch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
 
@@ -214,6 +215,7 @@ A default configuration for apache is also included
 %prep
 %setup -q
 %patch0 -p0
+cp %{SOURCE104} README.urpmi
 
 %build
 find . -name ".gitignore" -exec rm {} \;
@@ -223,6 +225,7 @@ perl -pi -e 's!/usr/local/bin/ruby!/usr/bin/env ruby!' lib/faster_csv.rb
 rm -rf %buildroot
 install -d %{buildroot}%{_var}/www/%{name}
 cp -rf * %{buildroot}%{_var}/www/%{name}
+rm -f %{buildroot}%{_var}/www/%{name}/README.urpmi
 
 # Don’t include bundled rails
 rm -rf %{buildroot}%{_var}/www/%{name}/vendor/rails
@@ -245,6 +248,7 @@ rm -rf %buildroot
 
 %files
 %defattr(-,root,root,-)
+%doc README.urpmi
 %{_sysconfdir}/logrotate.d/%{name}
 %doc %{_var}/www/%{name}/README.rdoc
 %dir %{_var}/www/%{name}/
