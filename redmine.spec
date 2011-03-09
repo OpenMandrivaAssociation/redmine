@@ -242,6 +242,7 @@ install -D -m644 %{SOURCE101} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 # Add httpd default conf
 mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d/
 install -D -m644 %{SOURCE102} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+rm -f %{buildroot}%{_var}/www/%{name}/extra/svn/Redmine.pm
 
 %clean
 rm -rf %buildroot
@@ -264,7 +265,6 @@ rm -rf %buildroot
 %{_var}/www/%{name}/config/settings.yml
 %{_var}/www/%{name}/db/
 %{_var}/www/%{name}/doc/
-%exclude %{_var}/www/%{name}/extra/svn/Redmine.pm
 %{_var}/www/%{name}/extra/
 # Directory has to be owned by the user under which the webserver runs
 # Since apache is the preferred webserver for many people simplify the
