@@ -1,6 +1,6 @@
 Name:       redmine
-Version:    1.0.3
-Release:    %mkrel 9
+Version:    1.2.2
+Release:    1
 Summary:    A flexible project management web application
 Group:      Networking/WWW
 License:    GPLv2+
@@ -10,7 +10,6 @@ Source101:  %{name}.logrotate
 Source102:  %{name}.httpd
 Source103:  %{name}-pg-database.yml
 Source104:  README.urpmi
-Patch0:     %{name}-fix-rails-version.patch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildRequires: ruby-RubyGems
@@ -209,12 +208,12 @@ A default configuration for apache is also included
 %files -n httpd
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
-%{_var}/www/%{name}/extra/svn/Redmine.pm
+# %{_var}/www/%{name}/extra/svn/Redmine.pm
 #-------------------------------------------------------------------------------
 
 %prep
 %setup -q
-%patch0 -p0
+#%patch0 -p0
 cp %{SOURCE104} README.urpmi
 
 %build
