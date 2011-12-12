@@ -1,5 +1,5 @@
 Name:       redmine
-Version:    1.2.2
+Version:    1.3.0
 Release:    1
 Summary:    A flexible project management web application
 Group:      Networking/WWW
@@ -10,7 +10,6 @@ Source101:  %{name}.logrotate
 Source102:  %{name}.httpd
 Source103:  %{name}-pg-database.yml
 Source104:  README.urpmi
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildRequires: ruby-RubyGems
 Requires:   webserver
@@ -213,7 +212,6 @@ A default configuration for apache is also included
 
 %prep
 %setup -q
-#%patch0 -p0
 cp %{SOURCE104} README.urpmi
 
 %build
@@ -221,7 +219,6 @@ find . -name ".gitignore" -exec rm {} \;
 perl -pi -e 's!/usr/local/bin/ruby!/usr/bin/env ruby!' lib/faster_csv.rb
 
 %install
-rm -rf %buildroot
 install -d %{buildroot}%{_var}/www/%{name}
 cp -rf * %{buildroot}%{_var}/www/%{name}
 rm -f %{buildroot}%{_var}/www/%{name}/README.urpmi
@@ -242,9 +239,6 @@ install -D -m644 %{SOURCE101} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d/
 install -D -m644 %{SOURCE102} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 rm -f %{buildroot}%{_var}/www/%{name}/extra/svn/Redmine.pm
-
-%clean
-rm -rf %buildroot
 
 %files
 %defattr(-,root,root,-)
