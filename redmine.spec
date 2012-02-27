@@ -1,5 +1,5 @@
 Name:       redmine
-Version:    1.3.0
+Version:    1.3.1
 Release:    1
 Summary:    A flexible project management web application
 Group:      Networking/WWW
