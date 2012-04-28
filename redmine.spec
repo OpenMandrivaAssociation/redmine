@@ -1,5 +1,5 @@
 Name:       redmine
-Version:    1.3.1
+Version:    1.4.1
 Release:    1
 Summary:    A flexible project management web application
 Group:      Networking/WWW
@@ -65,7 +65,6 @@ This package contains the needed modules to use postgresql as redmine's
 database backend.
 
 %files pg
-%defattr(-,root,root,-)
 %{_var}/www/%{name}/config/database.postgres.yml
 #-------------------------------------------------------------------------------
 %package mysql
@@ -82,7 +81,6 @@ This package contains the needed modules to use mysql as redmine's
 database backend.
 
 %files mysql
-%defattr(-,root,root,-)
 %config(noreplace) %{_var}/www/%{name}/config/database.yml
 #-------------------------------------------------------------------------------
 %package sqlite
@@ -100,7 +98,6 @@ This package contains the needed modules to use sqlite as redmine's
 database backend.
 
 %files sqlite
-%defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package git
 Summary:    A flexible project management web application - git backend
@@ -117,7 +114,6 @@ This package contains the needed modules to use git as redmine's
 version control system backend
 
 %files git
-%defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package svn
 Summary:    A flexible project management web application - subversion backend
@@ -134,7 +130,6 @@ This package contains the needed modules to use subversion as redmine's
 version control system backend
 
 %files svn
-%defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package hg
 Summary:    A flexible project management web application - mercurial backend
@@ -151,7 +146,6 @@ This package contains the needed modules to use mercurial as redmine's
 version control system backend
 
 %files hg
-%defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package bzr
 Summary:    A flexible project management web application - bzr backend
@@ -168,7 +162,6 @@ This package contains the needed modules to use bazaar as redmine's
 version control system backend
 
 %files bzr
-%defattr(-,root,root,-)
 #-------------------------------------------------------------------------------
 %package cvs
 Summary:    A flexible project management web application - cvs backend
@@ -185,7 +178,6 @@ This package contains the needed modules to use cvs as redmine's
 version control system backend
 
 %files cvs
-%defattr(-,root,root,-)
 #------------------------------------------------------------------------------
 %package -n httpd
 Summary:    A flexible project management web application - apache modules
@@ -205,7 +197,6 @@ svn server
 A default configuration for apache is also included
 
 %files -n httpd
-%defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 # %{_var}/www/%{name}/extra/svn/Redmine.pm
 #-------------------------------------------------------------------------------
@@ -256,9 +247,11 @@ rm -f %{buildroot}%{_var}/www/%{name}/extra/svn/Redmine.pm
 %{_var}/www/%{name}/config/boot.rb
 %{_var}/www/%{name}/config/environment.rb
 %{_var}/www/%{name}/config/settings.yml
+%{_var}/www/%{name}/config/preinitializer.rb
 %{_var}/www/%{name}/db/
 %{_var}/www/%{name}/doc/
 %{_var}/www/%{name}/extra/
+%{_var}/www/%{name}/Gemfile
 # Directory has to be owned by the user under which the webserver runs
 # Since apache is the preferred webserver for many people simplify the
 # process for those users, but it sucks, all webservers should belong
