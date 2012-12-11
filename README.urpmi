@@ -1,0 +1,64 @@
+# Rémy CLOUARD <shikamaru@mandriva.org>
+
+Hello,
+
+You’ve just installed the redmine package, thanks.
+
+Before you get it working, there are several steps to achieve.
+
+You first need to setup a database for it.
+Be sure to create it using an UTF-8 encoding database
+
+If you chose postgresql or sqlite, you have to create a custom
+database.yml file in /var/www/redmine/config.
+
+It should looke like this:
+
+production:
+  adapter: postgresql
+  database: <your_database>
+  host: localhost
+  username: <postgres_user>
+  password: <postgres_user_password>
+  encoding: utf8
+
+If you use the mysql subpackage, just edit the provided file to give the
+appropriate user/password that redmine should use to access your db.
+
+For everyone, you then have to create the file structure.
+
+Run the following commands:
+
+    rake generate_session_store
+    RAILS_ENV=production rake db:migrate # this will create the db structure
+
+It’s also highly recommended that you run this command:
+    RAILS_ENV=production rake redmine:load_default_data
+
+It will feed your database with basic rules for roles and permissions.
+
+You then need to give appropriate permissions to the
+public/plugin_assets directory, run the following commands for this:
+
+    chown apache:apache /var/www/redmine/public/plugin_assets -R
+    chmod 755 /var/www/redmine/public/plugin_assets
+
+Now you’re able to set up redmine. For convenience, a default config for
+apache has been added in /etc/httpd/conf.d/redmine.conf.
+
+Start your webserver, but allow only localhost and login with the following
+credentials:
+    user: admin
+    password: admin
+
+Create a new user for you with administrator privileges and lock or
+delete the admin account.
+
+Allow redmine to be visible by everyone, you’re done !
+
+Regards,
+
+Rémy CLOUARD
+
+for further information on how to set up redmine, please have a look at:
+    http://www.redmine.org/wiki/redmine/HowTos
