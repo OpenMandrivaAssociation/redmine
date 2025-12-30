@@ -1,6 +1,6 @@
 Name:           redmine
 Version:        2.3.2
-Release:        2
+Release:        3
 Summary:        A flexible project management web application
 Group:          Networking/WWW
 License:        GPLv2+
