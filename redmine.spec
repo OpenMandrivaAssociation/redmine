@@ -5,7 +5,7 @@ Summary:        A flexible project management web application
 Group:          Networking/WWW
 License:        GPLv2+
 URL:            https://www.redmine.org
-Source0:        http://rubyforge.org/frs/download.php/75597/%{name}-%{version}.tar.gz
+Source0:        https://github.com/redmine/redmine/archive/%{version}/%{name}-%{version}.tar.gz
 Source101:      %{name}.logrotate
 Source102:      %{name}.httpd
 Source103:      %{name}-pg-database.yml
