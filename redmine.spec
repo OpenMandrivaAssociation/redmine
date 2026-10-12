@@ -194,13 +194,18 @@ version control system backend
 
 %build
 find . -name ".gitignore" -exec rm {} \;
-perl -pi -e 's!/usr/local/bin/ruby!/usr/bin/env ruby!' lib/faster_csv.rb
+# The 2.3.2 tag no longer ships this file. Older release tarballs did.
+if [ -f lib/faster_csv.rb ]; then
+	perl -pi -e 's!/usr/local/bin/ruby!/usr/bin/env ruby!' lib/faster_csv.rb
+fi
 
 %install
 install -d %{buildroot}%{_var}/www/%{name}
 cp -rf * %{buildroot}%{_var}/www/%{name}
 
-# Don’t include bundled rails
+# The git tag has no vendor tree. The package still owns the directory,
+# and a release tarball may contain bundled rails, which we do not ship.
+mkdir -p %{buildroot}%{_var}/www/%{name}/vendor
 rm -rf %{buildroot}%{_var}/www/%{name}/vendor/rails
 
 # Copy database.yml.example as it’s mandatory to run redmine
