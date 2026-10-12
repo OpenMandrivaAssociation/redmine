@@ -11,7 +11,6 @@ Source102:      %{name}.httpd
 Source103:      %{name}-pg-database.yml
 
 BuildRequires:  ruby >= 1.8.7
-BuildRequires:  ruby-RubyGems
 Requires:       webserver
 Requires:       rails >= 2.3.14
 Requires:       ruby-rack >= 1.1.1
